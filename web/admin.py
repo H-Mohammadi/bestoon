@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Expense, Income
+from .models import Expense, Income, Token
 
 
 # Register your models here.
@@ -12,5 +12,10 @@ class ExpenseAdmin(admin.ModelAdmin):
 @admin.register(Income)
 class IncomeAdmin(admin.ModelAdmin):
     list_display = ('date', 'amount')
+
+
+@admin.register(Token)
+class TokenAdmin(admin.ModelAdmin):
+    list_display = ('user',)
 
 
