@@ -7,6 +7,14 @@ from datetime import datetime
 
 
 # Create your views here.
+
+
+@csrf_exempt
+def register(request):
+    return JsonResponse({
+        'status': 'ok'
+    }, encoder=json.JSONEncoder)
+
 # #csrf_cancel
 @csrf_exempt
 def submit_expense(request):
@@ -25,3 +33,25 @@ def submit_expense(request):
     return JsonResponse({
         'status': 'ok'
     }, encoder=json.JSONEncoder)
+
+
+@csrf_exempt
+def submit_income(request):
+    """user submit an income"""
+
+    # TODO; validate data. user might be fake. token might be fake, amount might be fake
+    this_token = request.POST['token']
+    this_user = User.objects.filter(token__token=this_token).get()
+    if 'date' not in request.POST:
+        date = datetime.now()
+    Income.objects.create(user=this_user,
+                          amount=request.POST['amount'],
+                          text=request.POST['text'],
+                          date=date)
+
+    return JsonResponse({
+        'status': 'ok'
+    }, encoder=json.JSONEncoder)
+
+
+
